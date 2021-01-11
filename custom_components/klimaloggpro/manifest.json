@@ -1,0 +1,14 @@
+{
+  "domain": "klimaloggpro",
+  "name": "klimaloggpro",
+  "config_flow": true,
+  "documentation": "https://www.home-assistant.io/integrations/klimaloggpro",
+  "requirements": [],
+  "ssdp": [],
+  "zeroconf": [],
+  "homekit": {},
+  "dependencies": [],
+  "codeowners": [
+    "@z8i"
+  ]
+}
