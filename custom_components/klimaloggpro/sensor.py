@@ -6,6 +6,7 @@
 # what the unit is, so it can display the correct range. For predefined types (such as
 # battery), the unit_of_measurement should match what's expected.
 import random
+import logging
 
 from homeassistant.const import (
     DEVICE_CLASS_TEMPERATURE,
@@ -18,12 +19,18 @@ from .const import DOMAIN
 
 import kloggpro.klimalogg
 
+_LOGGER = logging.getLogger(__name__)
+
 async def async_setup_entry(hass, config_entry, async_add_devices):
     """Add sensors for passed config_entry in HA."""
-    #kldr = hass.data[DOMAIN][config_entry.entry_id]
+    data = hass.data[DOMAIN][config_entry.entry_id]
     kldr = kloggpro.klimalogg.KlimaLoggDriver()
     kldr.clear_wait_at_start()
-    sensorlist = ["0", "1", "3"]
+    sensorlist=[]
+    for sensor in range(9):
+        if data.get(f"sensor_{sensor}", False):
+            sensorlist.append(f"{sensor}")
+    _LOGGER.info(f"Sensoren {sensorlist} to configure")
     new_devices = []
     for sensor in sensorlist:
         new_devices.append(TemperatureSensor(kldr, sensor))
@@ -86,6 +93,7 @@ class TemperatureSensor(SensorBase):
         """Return the name of the sensor."""
         if not(self._sensornum == "0"):
             sensorname = self._kldr._service.station_config.values[f"SensorText{self._sensornum}"]
+            sensorname = sensorname.capitalize()
         else:
             sensorname = "Indoor"
         return f"{sensorname} Klimlogg Sensor {self._sensornum}"

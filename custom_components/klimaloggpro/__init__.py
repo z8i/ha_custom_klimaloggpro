@@ -22,6 +22,9 @@ PLATFORMS = ["sensor"]
 
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the klimaloggpro component."""
+    hass.data.setdefault(DOMAIN, {}) 
+                    # Needed to create the entry for this component inside the hass object, 
+                    # without it, it is not possible to store data across this integration?
     return True
 
 
@@ -31,8 +34,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     
     _LOGGER.info("kurz vorm treiber-laden")
 
-    #hass.data[DOMAIN][entry.entry_id] = kloggpro.klimalogg.KlimaLoggDriver()
-    #hass.data[DOMAIN]["horst"] = kloggpro.klimalogg.KlimaLoggDriver()
+    hass.data[DOMAIN][entry.entry_id] = entry.data
+    #hass.data[DOMAIN]["host"] = kloggpro.klimalogg.KlimaLoggDriver()
 
     for component in PLATFORMS:
         hass.async_create_task(

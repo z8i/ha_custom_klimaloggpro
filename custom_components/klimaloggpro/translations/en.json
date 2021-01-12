@@ -12,8 +12,15 @@
             "user": {
                 "data": {
                     "host": "Host",
-                    "password": "Password",
-                    "username": "Username"
+                    "sensor_0": "Indoor",
+                    "sensor_1": "Kanal 1",
+                    "sensor_2": "Kanal 2",
+                    "sensor_3": "Kanal 3",
+                    "sensor_4": "Kanal 4",
+                    "sensor_5": "Kanal 5",
+                    "sensor_6": "Kanal 6",
+                    "sensor_7": "Kanal 7",
+                    "sensor_8": "Kanal 8"
                 }
             }
         }

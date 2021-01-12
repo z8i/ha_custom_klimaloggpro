@@ -5,8 +5,10 @@
       "user": {
         "data": {
           "host": "[%key:common::config_flow::data::host%]",
-          "username": "[%key:common::config_flow::data::username%]",
-          "password": "[%key:common::config_flow::data::password%]"
+          "sensor_0": "Indoor-Sensor",
+          "sensor_1": "Sensor 1",
+          "sensor_2": "Sensor 2",
+          "sensor_3": "Sensor 3"          
         }
       }
     },

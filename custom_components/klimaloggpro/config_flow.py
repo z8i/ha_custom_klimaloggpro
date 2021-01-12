@@ -10,7 +10,20 @@ from .const import DOMAIN  # pylint:disable=unused-import
 _LOGGER = logging.getLogger(__name__)
 
 # TODO adjust the data schema to the data that you need
-STEP_USER_DATA_SCHEMA = vol.Schema({("host"): str})
+STEP_USER_DATA_SCHEMA = vol.Schema(
+    {
+        ("host"): str, 
+        vol.Optional("sensor_0"): bool, 
+        vol.Optional("sensor_1"): bool, 
+        vol.Optional("sensor_2"): bool,
+        vol.Optional("sensor_3"): bool,
+        vol.Optional("sensor_4"): bool,
+        vol.Optional("sensor_5"): bool,
+        vol.Optional("sensor_6"): bool,
+        vol.Optional("sensor_7"): bool,
+        vol.Optional("sensor_8"): bool,
+    }
+)
 
 async def validate_input(hass: core.HomeAssistant, data: dict):
     """Validate the user input allows us to connect.
