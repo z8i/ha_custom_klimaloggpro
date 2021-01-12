@@ -10,7 +10,8 @@ import random
 from homeassistant.const import (
     DEVICE_CLASS_TEMPERATURE,
     TEMP_CELSIUS,
-    ATTR_TEMPERATURE
+    ATTR_TEMPERATURE,
+    STATE_UNKNOWN
 )
 from homeassistant.helpers.entity import Entity
 from .const import DOMAIN
@@ -22,9 +23,10 @@ async def async_setup_entry(hass, config_entry, async_add_devices):
     #kldr = hass.data[DOMAIN][config_entry.entry_id]
     kldr = kloggpro.klimalogg.KlimaLoggDriver()
     kldr.clear_wait_at_start()
-
+    sensorlist = ["0", "1", "3"]
     new_devices = []
-    new_devices.append(TemperatureSensor(kldr))
+    for sensor in sensorlist:
+        new_devices.append(TemperatureSensor(kldr, sensor))
     if new_devices:
         async_add_devices(new_devices)
 
@@ -32,9 +34,10 @@ class SensorBase(Entity):
     """ Base representation of KlimaLoggPro Sensors """
     should_poll = True
 
-    def __init__(self, kldr):
+    def __init__(self, kldr, sensor):
         """ Initialize sensor """
         self._kldr = kldr
+        self._sensornum = sensor
     
     @property
     def device_info(self):
@@ -55,19 +58,23 @@ class TemperatureSensor(SensorBase):
     @property
     def unique_id(self):
         """Return Unique ID string."""
-        return f"{self._kldr.get_transceiver_id()}_temp"
+        return f"{self._kldr.get_transceiver_id()}_temp{self._sensornum}"
 
     @property
     def device_state_attributes(self):
         """Return the state attributes of the device."""
         attr = {}
+        attr["max_temp"] = f"{self._kldr._service.current.values[f'Temp{self._sensornum}Max']:.1f}"
         attr["signal_strength"] = self._kldr._service.current.values['SignalQuality']
         return attr
 
     @property
     def state(self):
         """Return the state of the sensor."""
-        return self._kldr._service.current.values['Temp0']
+        value = self._kldr._service.current.values[f"Temp{self._sensornum}"]
+        if value == 81.1:
+            return STATE_UNKNOWN
+        return f"{value:.1f}"
 
     @property
     def unit_of_measurement(self):
@@ -77,4 +84,8 @@ class TemperatureSensor(SensorBase):
     @property
     def name(self):
         """Return the name of the sensor."""
-        return f"{self._kldr.model} for HA"
+        if not(self._sensornum == "0"):
+            sensorname = self._kldr._service.station_config.values[f"SensorText{self._sensornum}"]
+        else:
+            sensorname = "Indoor"
+        return f"{sensorname} Klimlogg Sensor {self._sensornum}"
