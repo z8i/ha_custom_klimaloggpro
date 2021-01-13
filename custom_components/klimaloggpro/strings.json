@@ -4,7 +4,7 @@
     "step": {
       "user": {
         "data": {
-          "host": "[%key:common::config_flow::data::host%]",
+          "name": "Name",
           "sensor_0": "Indoor-Sensor",
           "sensor_1": "Sensor 1",
           "sensor_2": "Sensor 2",

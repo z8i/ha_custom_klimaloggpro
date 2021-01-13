@@ -17,15 +17,16 @@ from homeassistant.const import (
 from homeassistant.helpers.entity import Entity
 from .const import DOMAIN
 
-import kloggpro.klimalogg
+#import kloggpro.klimalogg
 
 _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(hass, config_entry, async_add_devices):
     """Add sensors for passed config_entry in HA."""
     data = hass.data[DOMAIN][config_entry.entry_id]
-    kldr = kloggpro.klimalogg.KlimaLoggDriver()
-    kldr.clear_wait_at_start()
+    #kldr = kloggpro.klimalogg.KlimaLoggDriver()
+    #kldr.clear_wait_at_start()
+    kldr = hass.data[DOMAIN]["kldr"]
     sensorlist=[]
     for sensor in range(9):
         if data.get(f"sensor_{sensor}", False):

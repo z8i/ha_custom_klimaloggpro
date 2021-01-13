@@ -12,8 +12,8 @@ _LOGGER = logging.getLogger(__name__)
 # TODO adjust the data schema to the data that you need
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
-        ("host"): str, 
-        vol.Optional("sensor_0"): bool, 
+        vol.Required("name", default="Klimalogg"): str, 
+        vol.Optional("sensor_0", default=True): bool, 
         vol.Optional("sensor_1"): bool, 
         vol.Optional("sensor_2"): bool,
         vol.Optional("sensor_3"): bool,
@@ -42,7 +42,7 @@ async def validate_input(hass: core.HomeAssistant, data: dict):
 
     #if not await hub.authenticate(data["username"], data["password"]):
     #    raise InvalidAuth
-    if len(data["host"]) < 3:
+    if len(data["name"]) < 3:
         raise CannotConnect
     # If you cannot connect:
     # throw CannotConnect
@@ -50,7 +50,7 @@ async def validate_input(hass: core.HomeAssistant, data: dict):
     # InvalidAuth
 
     # Return info that you want to store in the config entry.
-    return {"title": data["host"]}
+    return {"title": data["name"]}
 
 
 class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):

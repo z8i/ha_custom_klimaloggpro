@@ -8,7 +8,7 @@ from homeassistant.core import HomeAssistant
 
 from .const import DOMAIN
 
-#import kloggpro.klimalogg
+import kloggpro.klimalogg
 
 _LOGGER = logging.getLogger(__name__)
 _LOGGER.info("Init wird geladen")
@@ -35,7 +35,8 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     _LOGGER.info("kurz vorm treiber-laden")
 
     hass.data[DOMAIN][entry.entry_id] = entry.data
-    #hass.data[DOMAIN]["host"] = kloggpro.klimalogg.KlimaLoggDriver()
+    hass.data[DOMAIN]["kldr"] = kloggpro.klimalogg.KlimaLoggDriver()
+    hass.data[DOMAIN]["kldr"].clear_wait_at_start()
 
     for component in PLATFORMS:
         hass.async_create_task(
@@ -47,13 +48,14 @@ async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
 
 async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Unload a config entry."""
+    hass.data[DOMAIN]["kldr"].shutDown()
     unload_ok = all(
         await asyncio.gather(
             *[
                 hass.config_entries.async_forward_entry_unload(entry, component)
                 for component in PLATFORMS
             ]
-        )
+        ),    
     )
     if unload_ok:
         hass.data[DOMAIN].pop(entry.entry_id)

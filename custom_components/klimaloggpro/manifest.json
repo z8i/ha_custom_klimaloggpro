@@ -3,7 +3,7 @@
   "name": "klimaloggpro",
   "config_flow": true,
   "documentation": "https://www.home-assistant.io/integrations/klimaloggpro",
-  "requirements": [],
+  "requirements": ["kloggpro==0.0.1"],
   "ssdp": [],
   "zeroconf": [],
   "homekit": {},
