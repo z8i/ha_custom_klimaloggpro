@@ -12,15 +12,24 @@
             "user": {
                 "data": {
                     "name": "Name of Integration",
-                    "sensor_0": "Indoor",
-                    "sensor_1": "Channel 1",
-                    "sensor_2": "Channel 2",
-                    "sensor_3": "Channel 3",
-                    "sensor_4": "Channel 4",
-                    "sensor_5": "Channel 5",
-                    "sensor_6": "Channel 6",
-                    "sensor_7": "Channel 7",
-                    "sensor_8": "Channel 8"
+                    "sensor_0temp": "Indoor temp.",
+                    "sensor_0humid": "Indoor humid.",
+                    "sensor_1temp": "Channel 1 temp.",
+                    "sensor_1humid": "Channel 1 humid.",
+                    "sensor_2temp": "Channel 2 temp.",
+                    "sensor_2humid": "Channel 2 humid.",
+                    "sensor_3temp": "Channel 3 temp.",
+                    "sensor_3humid": "Channel 3 humid.",
+                    "sensor_4temp": "Channel 4 temp.",
+                    "sensor_4humid": "Channel 4 humid.",
+                    "sensor_5temp": "Channel 5 temp.",
+                    "sensor_5humid": "Channel 5 humid.",
+                    "sensor_6temp": "Channel 6 temp.",
+                    "sensor_6humid": "Channel 6 humid.",
+                    "sensor_7temp": "Channel 7 temp.",
+                    "sensor_7humid": "Channel 7 humid.",
+                    "sensor_8temp": "Channel 8 temp.",
+                    "sensor_8humid": "Channel 8 humid."
                 }
             }
         }

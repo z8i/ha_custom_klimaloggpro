@@ -5,10 +5,24 @@
       "user": {
         "data": {
           "name": "Name",
-          "sensor_0": "Indoor-Sensor",
-          "sensor_1": "Sensor 1",
-          "sensor_2": "Sensor 2",
-          "sensor_3": "Sensor 3"          
+          "sensor_0temp": "Indoor_temp",
+          "sensor_0humid": "Indoor_humid",
+          "sensor_1temp": "channel_1_temp",
+          "sensor_1humid": "channel_1_humid",
+          "sensor_2temp": "channel_2_temp",
+          "sensor_2humid": "channel_2_humid",
+          "sensor_3temp": "channel_3_temp",
+          "sensor_3humid": "channel_3_humid",
+          "sensor_4temp": "channel_4_temp",
+          "sensor_4humid": "channel_4_humid",
+          "sensor_5temp": "channel_5_temp",
+          "sensor_5humid": "channel_5_humid",
+          "sensor_6temp": "channel_6_temp",
+          "sensor_6humid": "channel_6_humid",
+          "sensor_7temp": "channel_7_temp",
+          "sensor_7humid": "channel_7_humid",
+          "sensor_8temp": "channel_8_temp",
+          "sensor_8humid": "channel_8_humid"       
         }
       }
     },

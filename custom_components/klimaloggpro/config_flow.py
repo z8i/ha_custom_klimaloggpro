@@ -13,15 +13,24 @@ _LOGGER = logging.getLogger(__name__)
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required("name", default="Klimalogg"): str, 
-        vol.Optional("sensor_0", default=True): bool, 
-        vol.Optional("sensor_1"): bool, 
-        vol.Optional("sensor_2"): bool,
-        vol.Optional("sensor_3"): bool,
-        vol.Optional("sensor_4"): bool,
-        vol.Optional("sensor_5"): bool,
-        vol.Optional("sensor_6"): bool,
-        vol.Optional("sensor_7"): bool,
-        vol.Optional("sensor_8"): bool,
+        vol.Optional("sensor_0temp", default=True): bool, 
+        vol.Optional("sensor_0humid", default=True): bool, 
+        vol.Optional("sensor_1temp"): bool, 
+        vol.Optional("sensor_1humid"): bool, 
+        vol.Optional("sensor_2temp"): bool,
+        vol.Optional("sensor_2humid"): bool,
+        vol.Optional("sensor_3temp"): bool,
+        vol.Optional("sensor_3humid"): bool,
+        vol.Optional("sensor_4temp"): bool,
+        vol.Optional("sensor_4humid"): bool,
+        vol.Optional("sensor_5temp"): bool,
+        vol.Optional("sensor_5humid"): bool,
+        vol.Optional("sensor_6temp"): bool,
+        vol.Optional("sensor_6humid"): bool,
+        vol.Optional("sensor_7temp"): bool,
+        vol.Optional("sensor_7humid"): bool,
+        vol.Optional("sensor_8temp"): bool,
+        vol.Optional("sensor_8humid"): bool,
     }
 )
 

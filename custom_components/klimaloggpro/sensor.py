@@ -12,6 +12,8 @@ from homeassistant.const import (
     DEVICE_CLASS_TEMPERATURE,
     TEMP_CELSIUS,
     ATTR_TEMPERATURE,
+    DEVICE_CLASS_HUMIDITY,
+    PERCENTAGE,
     STATE_UNKNOWN
 )
 from homeassistant.helpers.entity import Entity
@@ -27,14 +29,20 @@ async def async_setup_entry(hass, config_entry, async_add_devices):
     #kldr = kloggpro.klimalogg.KlimaLoggDriver()
     #kldr.clear_wait_at_start()
     kldr = hass.data[DOMAIN]["kldr"]
-    sensorlist=[]
+    sensorlist_temp=[]
+    sensorlist_humid=[]
     for sensor in range(9):
-        if data.get(f"sensor_{sensor}", False):
-            sensorlist.append(f"{sensor}")
-    _LOGGER.info(f"Sensoren {sensorlist} to configure")
+        if data.get(f"sensor_{sensor}temp", False):
+            sensorlist_temp.append(f"{sensor}")
+        if data.get(f"sensor_{sensor}humid", False):
+            sensorlist_humid.append(f"{sensor}")
+
+    _LOGGER.info(f"Temp. sensor {sensorlist_temp} and Humid. sensor {sensorlist_humid} to configure")
     new_devices = []
-    for sensor in sensorlist:
+    for sensor in sensorlist_temp:
         new_devices.append(TemperatureSensor(kldr, sensor))
+    for sensor in sensorlist_humid:
+        new_devices.append(HumiditySensor(kldr, sensor))
     if new_devices:
         async_add_devices(new_devices)
 
@@ -56,7 +64,6 @@ class SensorBase(Entity):
     def available(self) -> bool:
         """Return True if roller and hub is available."""
         return self._kldr.transceiver_is_present()
-
 
 
 class TemperatureSensor(SensorBase):
@@ -97,4 +104,46 @@ class TemperatureSensor(SensorBase):
             sensorname = sensorname.capitalize()
         else:
             sensorname = "Indoor"
-        return f"{sensorname} Klimlogg Sensor {self._sensornum}"
+        return f"{sensorname} Temperature {self._sensornum}"
+
+
+
+class HumiditySensor(SensorBase):
+    """ Humiditysensor """
+    device_class = DEVICE_CLASS_HUMIDITY
+
+    @property
+    def unique_id(self):
+        """Return Unique ID string."""
+        return f"{self._kldr.get_transceiver_id()}_humidity{self._sensornum}"
+
+    @property
+    def device_state_attributes(self):
+        """Return the state attributes of the device."""
+        attr = {}
+        attr["max_humidity"] = f"{self._kldr._service.current.values[f'Humidity{self._sensornum}Max']:.1f}"
+        attr["signal_strength"] = self._kldr._service.current.values['SignalQuality']
+        return attr
+
+    @property
+    def state(self):
+        """Return the state of the sensor."""
+        value = self._kldr._service.current.values[f"Humidity{self._sensornum}"]
+        if value == 110.0:
+            return STATE_UNKNOWN
+        return f"{value:.0f}"
+
+    @property
+    def unit_of_measurement(self):
+        """Return the unit of measurement."""
+        return PERCENTAGE
+
+    @property
+    def name(self):
+        """Return the name of the sensor."""
+        if not(self._sensornum == "0"):
+            sensorname = self._kldr._service.station_config.values[f"SensorText{self._sensornum}"]
+            sensorname = sensorname.capitalize()
+        else:
+            sensorname = "Indoor"
+        return f"{sensorname} Humidity {self._sensornum}"
