@@ -1,18 +1,18 @@
-# Home Assistant Custom Component for TFA KlimaLogg Pro
+# TFA KlimaLogg Pro for Home Assistant
 
 TFA KlimaLogg Pro custom component to use with Home Assistant.
 
-# Experimental! Prototype!
+## Experimental! Prototype!
 
 # Installation
-Add this repository as a [custom repository](https://hacs.xyz/docs/navigation/settings#custom-repositories) of category Integration.
+Use HACS and add this repository as a [custom repository](https://hacs.xyz/docs/faq/custom_repositories) of category Integration.
 URL: ```https://github.com/z8i/ha_custom_klimaloggpro```
 
-# USB Device!
-TFA KlimaLogg Pro includes an USB Transceiver, which is used by this integration.
-So the stick needs to be physically present in the Home Assistant Installation.
+# Attention: USB Device!
+TFA KlimaLogg Pro weather station includes an USB Transceiver, which is used by this integration.
+So the stick needs to be physically connected to the computer which runs Home Assistant.
 
-Tested and works under following circumstances:
+### Tested and works under following circumstances:
 [Manual Home Assistant Installation](https://www.home-assistant.io/docs/installation/raspberry-pi/) on a Raspberry Pi with Raspberry Pi OS (Raspbian)
 USB-access is configured for user access:
 
@@ -35,6 +35,6 @@ To check for success:
 ```
 
 # More Info
-This integration uses [kloggpro-Module]https://github.com/z8i/kloggpro) from [PyPI](https://pypi.org/project/kloggpro).
+This integration uses [kloggpro-Module](https://github.com/z8i/kloggpro) from [PyPI](https://pypi.org/project/kloggpro).
 
 Do you like to test this integration? Please do! Let me know, if it works, or raise an [issue](https://github.com/z8i/ha_custom_klimaloggpro/issues)
