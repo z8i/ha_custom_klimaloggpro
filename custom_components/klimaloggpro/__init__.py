@@ -5,20 +5,19 @@ import voluptuous as vol
 
 from homeassistant.config_entries import ConfigEntry
 from homeassistant.core import HomeAssistant
+from homeassistant.const import (
+    EVENT_HOMEASSISTANT_STOP
+)
 
 from .const import DOMAIN
 
 import kloggpro.klimalogg
 
 _LOGGER = logging.getLogger(__name__)
-_LOGGER.info("Init wird geladen")
 
 CONFIG_SCHEMA = vol.Schema({DOMAIN: vol.Schema({})}, extra=vol.ALLOW_EXTRA)
 
-# TODO List the platforms that you want to support.
-# For your initial PR, limit it to 1 platform.
-PLATFORMS = ["sensor"]
-
+PLATFORMS = ["sensor"] #KlimaLogg provides some temperature and humidity sensors
 
 async def async_setup(hass: HomeAssistant, config: dict):
     """Set up the klimaloggpro component."""
@@ -30,18 +29,25 @@ async def async_setup(hass: HomeAssistant, config: dict):
 
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up klimaloggpro from a config entry."""
-    # TODO Store an API object for your platforms to access
-    
-    _LOGGER.info("kurz vorm treiber-laden")
-
-    hass.data[DOMAIN][entry.entry_id] = entry.data
-    hass.data[DOMAIN]["kldr"] = kloggpro.klimalogg.KlimaLoggDriver()
-    hass.data[DOMAIN]["kldr"].clear_wait_at_start()
+    hass.data[DOMAIN][entry.entry_id] = entry.data # not sure, if this is needed...
+    hass.data[DOMAIN]["kldr"] = kloggpro.klimalogg.KlimaLoggDriver() # creates an instance of the klimalogg-device
+    hass.data[DOMAIN]["kldr"].clear_wait_at_start() # necessary from the klimalogg-driver
+    _LOGGER.info("Driver set up and started, push 'USB' Button on Logger now!")
 
     for component in PLATFORMS:
         hass.async_create_task(
             hass.config_entries.async_forward_entry_setup(entry, component)
         )
+
+    def shutdown(event):
+        _LOGGER.info("Just before shutdown, KlimaLoggDriver will get shut down.")
+        hass.data[DOMAIN]["kldr"].shutDown() # releases the USB interface!
+    
+    # saw this below in the devolo_home_control integration - is it reasonable to store the listener?
+    #hass.data[DOMAIN][entry.entry_id]["listener"] = hass.bus.async_listen_once(
+    hass.bus.async_listen_once(
+        EVENT_HOMEASSISTANT_STOP, shutdown
+    )
 
     return True
 

@@ -9,7 +9,6 @@ from .const import DOMAIN  # pylint:disable=unused-import
 
 _LOGGER = logging.getLogger(__name__)
 
-# TODO adjust the data schema to the data that you need
 STEP_USER_DATA_SCHEMA = vol.Schema(
     {
         vol.Required("name", default="Klimalogg"): str, 
@@ -66,7 +65,9 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     """Handle a config flow for klimaloggpro."""
 
     VERSION = 1
-    # TODO pick one of the available connection classes in homeassistant/config_entries.py
+    # Not sure about connection class - Driver reads values from device like every 10 seconds
+    # Does it makes sense, to make it local push, so the read values get pushed to HA?
+    # Local poll works just fine for the moment.
     CONNECTION_CLASS = config_entries.CONN_CLASS_LOCAL_POLL
 
     async def async_step_user(self, user_input=None):
@@ -77,6 +78,7 @@ class ConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
                 info = await validate_input(self.hass, user_input)
 
                 return self.async_create_entry(title=info["title"], data=user_input)
+            # TODO Add some real-world Exceptions...?
             except CannotConnect:
                 errors["base"] = "cannot_connect"
             except InvalidAuth:

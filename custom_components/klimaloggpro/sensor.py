@@ -1,10 +1,5 @@
 """Platform for sensor integration."""
-# This file shows the setup for the sensors associated with the cover.
-# They are setup in the same way with the call to the async_setup_entry function
-# via HA from the module __init__. Each sensor has a device_class, this tells HA how
-# to display it in the UI (for know types). The unit_of_measurement property tells HA
-# what the unit is, so it can display the correct range. For predefined types (such as
-# battery), the unit_of_measurement should match what's expected.
+
 import random
 import logging
 
@@ -19,15 +14,12 @@ from homeassistant.const import (
 from homeassistant.helpers.entity import Entity
 from .const import DOMAIN
 
-#import kloggpro.klimalogg
 
 _LOGGER = logging.getLogger(__name__)
 
 async def async_setup_entry(hass, config_entry, async_add_devices):
     """Add sensors for passed config_entry in HA."""
     data = hass.data[DOMAIN][config_entry.entry_id]
-    #kldr = kloggpro.klimalogg.KlimaLoggDriver()
-    #kldr.clear_wait_at_start()
     kldr = hass.data[DOMAIN]["kldr"]
     sensorlist_temp=[]
     sensorlist_humid=[]
@@ -87,8 +79,11 @@ class TemperatureSensor(SensorBase):
     def state(self):
         """Return the state of the sensor."""
         value = self._kldr._service.current.values[f"Temp{self._sensornum}"]
-        if value == 81.1:
+        if value == 81.1: # if no value was read, the stored value by the driver is 81.1, some offset...
             return STATE_UNKNOWN
+            
+        # had some trouble with floats being 20.0000009, that fixed it somehow
+        # by returning a string, it is not displayed in HA UI, but maybe not good code either...
         return f"{value:.1f}"
 
     @property
@@ -99,7 +94,7 @@ class TemperatureSensor(SensorBase):
     @property
     def name(self):
         """Return the name of the sensor."""
-        if not(self._sensornum == "0"):
+        if not(self._sensornum == "0"): # Sensor 0 has no name in the driver - it's the sensor in the station itself
             sensorname = self._kldr._service.station_config.values[f"SensorText{self._sensornum}"]
             sensorname = sensorname.capitalize()
         else:
@@ -129,7 +124,7 @@ class HumiditySensor(SensorBase):
     def state(self):
         """Return the state of the sensor."""
         value = self._kldr._service.current.values[f"Humidity{self._sensornum}"]
-        if value == 110.0:
+        if value == 110.0: # if no value was read, the stored value by the driver is 110.0, some offset...
             return STATE_UNKNOWN
         return f"{value:.0f}"
 
@@ -141,7 +136,7 @@ class HumiditySensor(SensorBase):
     @property
     def name(self):
         """Return the name of the sensor."""
-        if not(self._sensornum == "0"):
+        if not(self._sensornum == "0"): # Sensor 0 has no name in the driver - it's the sensor in the station itself
             sensorname = self._kldr._service.station_config.values[f"SensorText{self._sensornum}"]
             sensorname = sensorname.capitalize()
         else:

@@ -1,0 +1,38 @@
+{
+    "config": {
+        "abort": {
+            "already_configured": "Gerät ist schon konfiguriert"
+        },
+        "error": {
+            "cannot_connect": "Failed to connect",
+            "invalid_auth": "Invalid authentication",
+            "unknown": "Unexpected error"
+        },
+        "step": {
+            "user": {
+                "data": {
+                    "name": "Name der Integration",
+                    "sensor_0temp": "Indoor Temp.",
+                    "sensor_0humid": "Indoor rel. Luftf.",
+                    "sensor_1temp": "Kanal 1 Temp.",
+                    "sensor_1humid": "Kanal 1 rel. Luftf.",
+                    "sensor_2temp": "Kanal 2 Temp.",
+                    "sensor_2humid": "Kanal 2 rel. Luftf.",
+                    "sensor_3temp": "Kanal 3 Temp.",
+                    "sensor_3humid": "Kanal 3 rel. Luftf.",
+                    "sensor_4temp": "Kanal 4 Temp.",
+                    "sensor_4humid": "Kanal 4 rel. Luftf.",
+                    "sensor_5temp": "Kanal 5 Temp.",
+                    "sensor_5humid": "Kanal 5 rel. Luftf.",
+                    "sensor_6temp": "Kanal 6 Temp.",
+                    "sensor_6humid": "Kanal 6 rel. Luftf.",
+                    "sensor_7temp": "Kanal 7 Temp.",
+                    "sensor_7humid": "Kanal 7 rel. Luftf.",
+                    "sensor_8temp": "Kanal 8 Temp.",
+                    "sensor_8humid": "Kanal 8 rel. Luftf."
+                }
+            }
+        }
+    },
+    "title": "TFA KlimaLogg_pro"
+}
