@@ -8,12 +8,27 @@ TFA KlimaLogg Pro custom component to use with Home Assistant.
 Use HACS and add this repository as a [custom repository](https://hacs.xyz/docs/faq/custom_repositories) of category Integration.
 URL: ```https://github.com/z8i/ha_custom_klimaloggpro```
 
+Installation steps:
+
+1.    Add repo to HACS
+2.    Install custom integration " TFA KlimaLogg pro BETA" via HACS
+3.    Restart Home Assistant
+4.    Go to Settings-Integrations in Home Assistant
+5.    Add Integration "Klimalogg".. this takes a while, please be patient!
+6.    Select the sensors you have connected to you base station
+7.    finish!
+
+During step 5 i usually press the USB buttom some times (hold it a bit), until the base station is connected with the raspberry. If you use HAOS all the custom usb device right management stuff is not neccessary. Once the station is connected, you can see the live data in Home Assistant, the connection will stay permanent. 
+
 # Attention: USB Device!
 TFA KlimaLogg Pro weather station includes an USB Transceiver, which is used by this integration.
 So the stick needs to be physically connected to the computer which runs Home Assistant.
 
-### Tested and works under following circumstances:
-[Manual Home Assistant Installation](https://www.home-assistant.io/docs/installation/raspberry-pi/) on a Raspberry Pi with Raspberry Pi OS (Raspbian)
+## Tested and works under following circumstances:
+### [Home Assistant Operating System (HAOS)](https://www.home-assistant.io/installation/raspberrypi/#install-home-assistant-operating-system)
+Tested on a Raspberry 4 Model B
+
+### [Manual Home Assistant Installation](https://www.home-assistant.io/docs/installation/raspberry-pi/) on a Raspberry Pi with Raspberry Pi OS (Raspbian)
 USB-access is configured for user access:
 
 It needs usb access to work properly, maybe you need to grant usb access
