@@ -14,9 +14,11 @@ Installation steps:
 2.    Install custom integration " TFA KlimaLogg pro BETA" via HACS
 3.    Restart Home Assistant
 4.    Go to Settings-Integrations in Home Assistant
-5.    Add Integration "Klimalogg".. this takes a while, please be patient!
+5.    Add Integration "Klimalogg".. this takes a while, please be patient! Do a refresh in your browser if you cannot find "Klimalogg"
 6.    Select the sensors you have connected to you base station
-7.    finish!
+7.    Add the integration to your dashboard
+8.    Press 3 seconds on the USB button on the main TFA station, so "USB" is constantly displayed on TFA station
+9.    finish!
 
 During step 5 i usually press the USB buttom some times (hold it a bit), until the base station is connected with the raspberry. If you use HAOS all the custom usb device right management stuff is not neccessary. Once the station is connected, you can see the live data in Home Assistant, the connection will stay permanent. 
 
