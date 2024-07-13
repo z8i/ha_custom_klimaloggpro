@@ -1,10 +1,10 @@
 {
   "domain": "klimaloggpro",
   "name": "klimaloggpro",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "config_flow": true,
   "documentation": "https://www.home-assistant.io/integrations/klimaloggpro",
-  "requirements": ["kloggpro==0.0.2"],
+  "requirements": ["kloggpro==0.0.3"],
   "ssdp": [],
   "zeroconf": [],
   "homekit": {},
