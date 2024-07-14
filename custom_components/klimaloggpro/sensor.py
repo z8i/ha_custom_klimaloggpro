@@ -4,13 +4,13 @@ import random
 import logging
 
 from homeassistant.const import (
-    DEVICE_CLASS_TEMPERATURE,
-    TEMP_CELSIUS,
-    ATTR_TEMPERATURE,
-    DEVICE_CLASS_HUMIDITY,
     PERCENTAGE,
-    STATE_UNKNOWN
+    STATE_UNKNOWN,
+    UnitOfTemperature
 )
+
+from homeassistant.components.sensor import SensorDeviceClass
+
 from homeassistant.helpers.entity import Entity
 from .const import DOMAIN
 
@@ -60,7 +60,7 @@ class SensorBase(Entity):
 
 class TemperatureSensor(SensorBase):
     """ Temperatursensor """
-    device_class = DEVICE_CLASS_TEMPERATURE
+    device_class = SensorDeviceClass.TEMPERATURE
 
     @property
     def unique_id(self):
@@ -89,7 +89,7 @@ class TemperatureSensor(SensorBase):
     @property
     def unit_of_measurement(self):
         """Return the unit of measurement."""
-        return TEMP_CELSIUS
+        return UnitOfTemperature.CELSIUS
 
     @property
     def name(self):
@@ -105,7 +105,7 @@ class TemperatureSensor(SensorBase):
 
 class HumiditySensor(SensorBase):
     """ Humiditysensor """
-    device_class = DEVICE_CLASS_HUMIDITY
+    device_class = SensorDeviceClass.HUMIDITY
 
     @property
     def unique_id(self):
