@@ -30,20 +30,15 @@ async def async_setup(hass: HomeAssistant, config: dict):
 async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry):
     """Set up klimaloggpro from a config entry."""
     hass.data[DOMAIN][entry.entry_id] = entry.data # not sure, if this is needed...
-    hass.data[DOMAIN]["kldr"] = kloggpro.klimalogg.KlimaLoggDriver() # creates an instance of the klimalogg-device
-    # Now we need to wait until the object is properly created, to call clear wait at start. But that turned out harder than expected.
     
-    # while not hasattr(hass.data[DOMAIN]["kldr"], 'clear_wait_at_start'): # seems to never fulfill
-    # while hass.data[DOMAIN]["kldr"] is None: # also not working...
+    loop = asyncio.get_event_loop()
+    kldr = await loop.run_in_executor(None, kloggpro.klimalogg.KlimaLoggDriver)
 
-    await asyncio.sleep(8) # puh, not nice but works somehow
-    hass.data[DOMAIN]["kldr"].clear_wait_at_start() # necessary from the klimalogg-driver
+    hass.data[DOMAIN]["kldr"] = kldr
+    await loop.run_in_executor(None, kldr.clear_wait_at_start) # necessary from the klimalogg-driver
     _LOGGER.info("Driver set up and started, push 'USB' Button on Logger now!")
 
-    for component in PLATFORMS:
-        hass.async_create_task(
-            hass.config_entries.async_forward_entry_setup(entry, component)
-        )
+    await hass.config_entries.async_forward_entry_setups(entry, PLATFORMS)
 
     def shutdown(event):
         _LOGGER.info("Just before shutdown, KlimaLoggDriver will get shut down.")
