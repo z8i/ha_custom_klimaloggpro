@@ -10,6 +10,7 @@ from homeassistant.const import (
 )
 
 from homeassistant.components.sensor import SensorDeviceClass
+from homeassistant.components.sensor import SensoStateClass
 
 from homeassistant.helpers.entity import Entity
 from .const import DOMAIN
@@ -46,7 +47,6 @@ class SensorBase(Entity):
         """ Initialize sensor """
         self._kldr = kldr
         self._sensornum = sensor
-        self._state_class = SensorStateClass.MEASUREMENT
     
     @property
     def device_info(self):
@@ -62,6 +62,7 @@ class SensorBase(Entity):
 class TemperatureSensor(SensorBase):
     """ Temperatursensor """
     device_class = SensorDeviceClass.TEMPERATURE
+    state_class = SensorStateClass.MEASUREMENT
 
     @property
     def unique_id(self):
@@ -107,6 +108,7 @@ class TemperatureSensor(SensorBase):
 class HumiditySensor(SensorBase):
     """ Humiditysensor """
     device_class = SensorDeviceClass.HUMIDITY
+    state_class = SensorStateClass.MEASUREMENT
 
     @property
     def unique_id(self):
