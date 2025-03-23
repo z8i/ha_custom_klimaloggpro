@@ -46,6 +46,7 @@ class SensorBase(Entity):
         """ Initialize sensor """
         self._kldr = kldr
         self._sensornum = sensor
+        self._state_class = SensorStateClass.MEASUREMENT
     
     @property
     def device_info(self):
