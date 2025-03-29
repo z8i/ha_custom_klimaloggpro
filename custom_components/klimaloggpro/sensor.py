@@ -10,7 +10,7 @@ from homeassistant.const import (
 )
 
 from homeassistant.components.sensor import SensorDeviceClass
-from homeassistant.components.sensor import SensoStateClass
+from homeassistant.components.sensor import SensorStateClass
 
 from homeassistant.helpers.entity import Entity
 from .const import DOMAIN
