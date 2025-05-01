@@ -11,7 +11,7 @@ from homeassistant.const import (
 
 from homeassistant.components.sensor import SensorDeviceClass
 from homeassistant.components.sensor import SensorStateClass
-
+from datetime import datetime, timedelta
 from homeassistant.helpers.entity import Entity
 from .const import DOMAIN
 
@@ -70,11 +70,42 @@ class TemperatureSensor(SensorBase):
         return f"{self._kldr.get_transceiver_id()}_temp{self._sensornum}"
 
     @property
-    def device_state_attributes(self):
+    def extra_state_attributes(self):
         """Return the state attributes of the device."""
         attr = {}
-        attr["max_temp"] = f"{self._kldr._service.current.values[f'Temp{self._sensornum}Max']:.1f}"
-        attr["signal_strength"] = self._kldr._service.current.values['SignalQuality']
+        try:
+            attr["max_temp"] = f"{self._kldr._service.current.values[f'Temp{self._sensornum}Max']:.1f}"
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: max_temp")
+        try:
+            attr["min_temp"] = f"{self._kldr._service.current.values[f'Temp{self._sensornum}Min']:.1f}"
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: min_temp")
+        try:
+            attr["max_temp_dt"] = self._kldr._service.current.values[f'Temp{self._sensornum}MaxDT']
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: max_temp_dt")
+        try:
+            attr["min_temp_dt"] = self._kldr._service.current.values[f'Temp{self._sensornum}MinDT']
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: min_temp_dt")
+        try:
+            attr["signal_strength"] = self._kldr._service.current.values['SignalQuality']
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: signal_strength")
+        try:
+            attr["state_class"] = SensorStateClass.MEASUREMENT
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: state_class")
+        try:
+            if self._sensornum=="0":
+                attr["battery_status"] = "OK" if self._kldr._service.current.values['AlarmData'][1] & 0x80 == 0 else "Low" 
+            else:
+                bitmask = 1 << (int(self._sensornum) -1)
+                _LOGGER.debug(f"bitmask {bitmask}")
+                attr["battery_status"] = "OK" if self._kldr._service.current.values['AlarmData'][0] & bitmask == 0 else "Low"
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: battery_status")
         return attr
 
     @property
@@ -116,11 +147,43 @@ class HumiditySensor(SensorBase):
         return f"{self._kldr.get_transceiver_id()}_humidity{self._sensornum}"
 
     @property
-    def device_state_attributes(self):
+    def extra_state_attributes(self):
         """Return the state attributes of the device."""
         attr = {}
-        attr["max_humidity"] = f"{self._kldr._service.current.values[f'Humidity{self._sensornum}Max']:.1f}"
-        attr["signal_strength"] = self._kldr._service.current.values['SignalQuality']
+        try:
+            attr["max_humidity"] = f"{self._kldr._service.current.values[f'Humidity{self._sensornum}Max']:.1f}"
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: max_humidity")
+        try:
+            attr["min_humidity"] = f"{self._kldr._service.current.values[f'Humidity{self._sensornum}Min']:.1f}"
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: min_humidity")
+        try:
+            attr["max_humidity_dt"] = self._kldr._service.current.values[f'Humidity{self._sensornum}MaxDT']
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: max_humidity_dt")
+        try:
+            attr["min_humidity_dt"] = self._kldr._service.current.values[f'Humidity{self._sensornum}MinDT']
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: min_humidity_dt")
+        try:
+            attr["signal_strength"] = self._kldr._service.current.values['SignalQuality']
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: signal_strength")
+        try:
+            attr["state_class"] = SensorStateClass.MEASUREMENT
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: state_class")
+        try:
+            if self._sensornum=="0":
+                attr["battery_status"] = "OK" if self._kldr._service.current.values['AlarmData'][1] & 0x80 == 0 else "Low" 
+            else:
+                bitmask = 1 << (int(self._sensornum) -1)
+                _LOGGER.debug(f"bitmask {bitmask}")
+                attr["battery_status"] = "OK" if self._kldr._service.current.values['AlarmData'][0] & bitmask == 0 else "Low"
+        except Exception as err:
+            _LOGGER.error(f"Error {err} setting attr: battery_status")
+                
         return attr
 
     @property
