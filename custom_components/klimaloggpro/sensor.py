@@ -102,7 +102,6 @@ class TemperatureSensor(SensorBase):
                 attr["battery_status"] = "OK" if self._kldr._service.current.values['AlarmData'][1] & 0x80 == 0 else "Low" 
             else:
                 bitmask = 1 << (int(self._sensornum) -1)
-                _LOGGER.debug(f"bitmask {bitmask}")
                 attr["battery_status"] = "OK" if self._kldr._service.current.values['AlarmData'][0] & bitmask == 0 else "Low"
         except Exception as err:
             _LOGGER.error(f"Error {err} setting attr: battery_status")
@@ -179,7 +178,6 @@ class HumiditySensor(SensorBase):
                 attr["battery_status"] = "OK" if self._kldr._service.current.values['AlarmData'][1] & 0x80 == 0 else "Low" 
             else:
                 bitmask = 1 << (int(self._sensornum) -1)
-                _LOGGER.debug(f"bitmask {bitmask}")
                 attr["battery_status"] = "OK" if self._kldr._service.current.values['AlarmData'][0] & bitmask == 0 else "Low"
         except Exception as err:
             _LOGGER.error(f"Error {err} setting attr: battery_status")
