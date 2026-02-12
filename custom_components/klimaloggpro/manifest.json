@@ -1,7 +1,7 @@
 {
   "domain": "klimaloggpro",
   "name": "klimaloggpro",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "config_flow": true,
   "documentation": "https://www.home-assistant.io/integrations/klimaloggpro",
   "requirements": ["kloggpro==0.0.4"],
